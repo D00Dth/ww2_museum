@@ -8,6 +8,7 @@ public class MenuManager : MonoBehaviour
 {
     [Header("UE Museum Menu")]
     [SerializeField] private GameObject EUMuseumMenu;
+    [SerializeField] private GameObject interestPoints;
     private bool isEUMenuOpen = false;
 
     [SerializeField] private GameObject museumButtonContainer;
@@ -62,6 +63,7 @@ public class MenuManager : MonoBehaviour
     {
         isEUMenuOpen = !isEUMenuOpen;
         EUMuseumMenu.SetActive(isEUMenuOpen);
+        interestPoints.SetActive(!isEUMenuOpen);
     }
 
     public void ToggleEUMuseumButton(Button buttonClicked)
@@ -70,8 +72,8 @@ public class MenuManager : MonoBehaviour
 
         GridLayoutGroup gridLayout = museumButtonContainer.GetComponent<GridLayoutGroup>();
 
-        Vector2 largeSize = new Vector2(500, 50);
-        Vector2 smallSize = new Vector2(200, 50);
+        Vector2 largeSize = new Vector2(1000, 100);
+        Vector2 smallSize = new Vector2(400, 100);
 
         Vector2 sizeButton = isDefaultSize ? smallSize : largeSize;
 
