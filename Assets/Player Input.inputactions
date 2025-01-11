@@ -156,6 +156,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Enigme 1",
+            "id": "70927575-2a39-4207-9bb3-6600ea304e43",
+            "actions": [
+                {
+                    "name": "Rotate",
+                    "type": "Button",
+                    "id": "09591cbe-cc48-4cb6-8ba4-938eeb8d2270",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "099a1a19-99ec-43c4-8843-0bceef6f5895",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
