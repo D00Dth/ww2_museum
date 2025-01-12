@@ -5,6 +5,8 @@ public class InteractionManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     [SerializeField] private InputActionReference rotateCylinder;
+    [SerializeField] private InputActionReference pickUpItem;
+
     [SerializeField] private float raySize = 1.0f;
 
     private GameObject hoveredObj;
@@ -12,11 +14,13 @@ public class InteractionManager : MonoBehaviour
     private void OnEnable()
     {
         rotateCylinder.action.Enable();
+        pickUpItem.action.Enable();
     }
 
     private void OnDisable()
     {
         rotateCylinder.action.Disable();
+        pickUpItem.action.Disable();
     }
 
     private void Update()
@@ -26,30 +30,36 @@ public class InteractionManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raySize))
         {
-            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-
-            if (interactable != null)
+            CheckInteractable(hit);
+            PickUpObject(hit);
+        }
+        else
+        {
+            if (hoveredObj != null)
             {
-                if (hoveredObj != hit.collider.gameObject && hoveredObj != null)
-                {
-                    hoveredObj.GetComponent<IInteractable>().OnHoverExit();
-                }
-
-                hoveredObj = hit.collider.gameObject;
-                interactable.OnHoverEnter();
-
-                if (rotateCylinder.action.triggered)
-                {
-                    interactable.Interact();
-                }
+                hoveredObj.GetComponent<IInteractable>().OnHoverExit();
+                hoveredObj = null;
             }
-            else
+        }
+    }
+
+    public void CheckInteractable(RaycastHit hit)
+    {
+        IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+
+        if (interactable != null)
+        {
+            if (hoveredObj != hit.collider.gameObject && hoveredObj != null)
             {
-                if (hoveredObj != null)
-                {
-                    hoveredObj.GetComponent<IInteractable>().OnHoverExit();
-                    hoveredObj = null;
-                }
+                hoveredObj.GetComponent<IInteractable>().OnHoverExit();
+            }
+
+            hoveredObj = hit.collider.gameObject;
+            interactable.OnHoverEnter();
+
+            if (rotateCylinder.action.triggered)
+            {
+                interactable.Interact();
             }
         }
         else
@@ -60,6 +70,20 @@ public class InteractionManager : MonoBehaviour
                 hoveredObj = null;
             }
         }
+    }
+
+    public void PickUpObject(RaycastHit hit)
+    {
+        if(pickUpItem.action.triggered)
+        {
+            IInteractable item = hit.collider.gameObject.GetComponent<IInteractable>();
+
+            if (item != null)
+            {
+                item.Interact();
+            }
+        }
+
     }
 }
 

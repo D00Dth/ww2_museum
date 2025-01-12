@@ -11,8 +11,10 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Display Menu")]
     [SerializeField] private InputActionReference toggleMenu;
-    [SerializeField] private GameObject menuUI;
+    [SerializeField] private GameObject inventoryUI;
     private bool isMenuOpen = false;
+    private bool isAnimating = false;
+
 
     public void OnEnable()
     {
@@ -24,28 +26,70 @@ public class InventoryManager : MonoBehaviour
         toggleMenu.action.Disable();
     }
 
-    private void Update()
+    void Start()
+    {
+        inventory.Clear();
+    }
+
+    void Update()
     {
         if (toggleMenu.action.triggered)
         {
-            Debug.Log("Action déclenchée par le clavier (désactivée ici pour éviter un conflit).");
+            ToggleInventory();
         }
     }
 
     public void ToggleInventory()
     {
-        isMenuOpen = !isMenuOpen;
-        menuUI.SetActive(isMenuOpen);
+        if(isAnimating) return;
 
-        Debug.Log("Inventaire ouvert : " + isMenuOpen);
+        isAnimating = true;
+        isMenuOpen = !isMenuOpen;
+
+        if (isMenuOpen)
+        {
+            inventoryUI.SetActive(true);
+            inventoryUI.transform.localScale = Vector3.zero;
+            LeanTween.scale(inventoryUI, Vector3.one, 0.5f)
+                    .setEase(LeanTweenType.easeInOutQuad)
+                    .setOnComplete(() =>
+                    {
+                        isAnimating = false;
+                        isMenuOpen = true;
+                    });
+        }
+        else
+        {
+            LeanTween.scale(inventoryUI, Vector3.zero, 0.5f)
+                    .setEase(LeanTweenType.easeInOutQuad)
+                    .setOnComplete(() => 
+                    {
+                        inventoryUI.SetActive(false);
+                        isAnimating = false;
+                        isMenuOpen = false;
+                    });
+        }
     }
+
+    public bool AddItemToInventory(IItem item)
+    {
+        if(inventory.Count < 3) 
+        {
+            inventory.Add(item);
+            return true;
+        }
+        else 
+        {
+            print("Vous n'avez pas assez de place dans l'inventaire pour un nouvel objet");
+            return false;
+        }
+    }
+
 }
 
 public interface IItem
 {
     string itemName { get; }
-    GameObject model { get; }
-    Sprite icon { get; }
-
-    void Use();
+    GameObject itemModel { get; }
+    Sprite itemIcon { get; }
 }
