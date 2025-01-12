@@ -5,6 +5,7 @@ public class RotatingCipher : MonoBehaviour, IInteractable
 {
     [SerializeField] public List<string> _symbols = new List<string>();
     [SerializeField] public int index;
+    private bool isRotating = false;
 
 
     void Start()
@@ -15,9 +16,20 @@ public class RotatingCipher : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        LeanTween.rotate(gameObject, new Vector3(0f, 0f, 60f) + transform.localEulerAngles, 1f).setEase(LeanTweenType.easeInOutQuad);
-        index = index == _symbols.Count - 1 ? 0 : index + 1;
-        print(gameObject.name + " a le symbole " + _symbols[index]);
+        if(!isRotating)
+        {
+            isRotating = true;
+            LeanTween.rotate(gameObject, new Vector3(0f, 0f, 60f) + transform.localEulerAngles, 1f)
+                .setEase(LeanTweenType.easeInOutQuad)
+                .setOnComplete(() =>
+                {
+                    isRotating = false;
+                });
+
+            index = index == _symbols.Count - 1 ? 0 : index + 1;
+            print(gameObject.name + " a le symbole " + _symbols[index]);
+        }
+
     }
 
 
