@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using TMPro;
+
 
 public class InteractionManager : MonoBehaviour
 {
@@ -10,6 +13,11 @@ public class InteractionManager : MonoBehaviour
     [SerializeField] private float raySize = 1.0f;
 
     private GameObject hoveredObj;
+
+
+    [Header("Picked Up Item UI")]
+    [SerializeField] private GameObject pickedUpItem;
+    [SerializeField] private TextMeshProUGUI nameUI;
 
     private void OnEnable()
     {
@@ -76,20 +84,33 @@ public class InteractionManager : MonoBehaviour
     {
         if(pickUpItem.action.triggered)
         {
-            IInteractable item = hit.collider.gameObject.GetComponent<IInteractable>();
+            IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+            IItem item = hit.collider.gameObject.GetComponent<IItem>();
 
-            if (item != null)
+            if (interactable != null && item != null)
             {
-                item.Interact();
+                bool isPickedUp = interactable.Interact();
+                if(isPickedUp) StartCoroutine(DisplayPickedUpObjectName(item.itemName));
             }
         }
-
     }
+
+    public IEnumerator DisplayPickedUpObjectName(string itemName)
+    {
+        pickedUpItem.SetActive(true);
+        nameUI.text = itemName;
+
+        yield return new WaitForSeconds(2.0f);
+
+        nameUI.text = "";
+        pickedUpItem.SetActive(false);
+    }
+
 }
 
 public interface IInteractable
 {
     void OnHoverEnter();
     void OnHoverExit();
-    void Interact();
+    bool Interact();
 }

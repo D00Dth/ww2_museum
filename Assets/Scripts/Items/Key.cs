@@ -8,10 +8,10 @@ public class Key : MonoBehaviour, IItem, IInteractable
     [SerializeField] private InventoryManager inventoryManager;
 
 
+
     public string itemName => keyName;
     public Sprite itemIcon => keyIcon;
     public GameObject itemModel => keyModel;
-
 
     public void OnHoverEnter()
     {
@@ -23,12 +23,13 @@ public class Key : MonoBehaviour, IItem, IInteractable
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.white;
     }
 
-    public void Interact()
+    public bool Interact()
     {
         bool isAdded = inventoryManager.AddItemToInventory(this);
-        if(isAdded) Destroy(gameObject);
+        if (isAdded)
+        {
+            Destroy(gameObject);
+        }
+        return isAdded;
     }
-
-
-    
 }

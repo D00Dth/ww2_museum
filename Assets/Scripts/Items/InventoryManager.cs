@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-
+using System.Collections;
+using TMPro;
 
 public class InventoryManager : MonoBehaviour 
 {
@@ -14,6 +15,11 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject inventoryUI;
     private bool isMenuOpen = false;
     private bool isAnimating = false;
+
+    [Header("Picked Up Item UI")]
+    [SerializeField] private GameObject pickedUpItem;
+    [SerializeField] private TextMeshProUGUI nameUI;
+    private string inventoryFullMsg = "The inventory is full";
 
 
     public void OnEnable()
@@ -80,9 +86,18 @@ public class InventoryManager : MonoBehaviour
         }
         else 
         {
-            print("Vous n'avez pas assez de place dans l'inventaire pour un nouvel objet");
+            StartCoroutine(DisplayInventoryMsg());
             return false;
         }
+    }
+
+    public IEnumerator DisplayInventoryMsg()
+    {
+        pickedUpItem.SetActive(true);
+        nameUI.text = inventoryFullMsg;
+
+        yield return new WaitForSeconds(2.0f);
+        pickedUpItem.SetActive(false);
     }
 
 }
