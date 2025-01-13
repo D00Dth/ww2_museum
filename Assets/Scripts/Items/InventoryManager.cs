@@ -19,6 +19,11 @@ public class InventoryManager : MonoBehaviour
     [Header("Picked Up Item UI")]
     [SerializeField] private GameObject pickedUpItem;
     [SerializeField] private TextMeshProUGUI nameUI;
+
+
+    [Header("Inventory UI")]
+    [SerializeField] private GameObject itemContainer;
+    [SerializeField] private List<Button> objectButtonList;
     private string inventoryFullMsg = "The inventory is full";
 
 
@@ -63,6 +68,15 @@ public class InventoryManager : MonoBehaviour
                         isAnimating = false;
                         isMenuOpen = true;
                     });
+            
+            for(int i = 0; i < inventory.Count; i++)
+            {   
+                Image buttonImg = objectButtonList[i].GetComponentInChildren<Image>();
+                buttonImg.gameObject.SetActive(true);
+
+                buttonImg.sprite = inventory[i].itemIcon;
+            }
+
         }
         else
         {
