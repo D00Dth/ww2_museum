@@ -14,7 +14,7 @@ public class RotatingCipher : MonoBehaviour, IInteractable
     }
 
 
-    public void Interact()
+    public bool Interact()
     {
         if(!isRotating)
         {
@@ -29,6 +29,7 @@ public class RotatingCipher : MonoBehaviour, IInteractable
             index = index == _symbols.Count - 1 ? 0 : index + 1;
             print(gameObject.name + " a le symbole " + _symbols[index]);
         }
+        return true;
 
     }
 
