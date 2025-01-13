@@ -448,6 +448,7 @@
 "Assets/Scripts/Enigme 1/CipherManager.cs"
 "Assets/Scripts/Enigme 1/RotatingCipher.cs"
 "Assets/Scripts/Interactable/Door.cs"
+"Assets/Scripts/Interactable/KeyBoardKey.cs"
 "Assets/Scripts/Items/InventoryManager.cs"
 "Assets/Scripts/Items/Key.cs"
 "Assets/Scripts/MenuManager.cs"

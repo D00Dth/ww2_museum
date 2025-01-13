@@ -39,8 +39,12 @@ public class InteractionManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit, raySize))
         {
             CheckInteractable(hit);
+
+            RotateCylinder(hit);
             PickUpObject(hit);
             OpenDoor(hit);
+
+            PressKeyboard(hit);
         }
         else
         {
@@ -65,11 +69,6 @@ public class InteractionManager : MonoBehaviour
 
             hoveredObj = hit.collider.gameObject;
             interactable.OnHoverEnter();
-
-            if (rotateCylinder.action.triggered)
-            {
-                interactable.Interact();
-            }
         }
         else
         {
@@ -77,6 +76,19 @@ public class InteractionManager : MonoBehaviour
             {
                 hoveredObj.GetComponent<IInteractable>().OnHoverExit();
                 hoveredObj = null;
+            }
+        }
+    }
+
+    public void RotateCylinder(RaycastHit hit)
+    {
+        if(rotateCylinder.action.triggered)
+        {
+            IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+
+            if (interactable != null)
+            {
+                interactable.Interact();
             }
         }
     }
@@ -105,6 +117,18 @@ public class InteractionManager : MonoBehaviour
             if (interactable != null)
             {
                 bool isDoorOpen = interactable.Interact();
+            }
+        }
+    }
+
+    public void PressKeyboard(RaycastHit hit)
+    {
+        if(interactWith.action.triggered && hit.collider.GetComponent<KeyBoardKey>() != null)
+        {
+            IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+            if(interactable != null)
+            {
+                interactable.Interact();
             }
         }
     }
