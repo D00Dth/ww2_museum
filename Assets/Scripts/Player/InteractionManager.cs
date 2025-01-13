@@ -8,7 +8,7 @@ public class InteractionManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     [SerializeField] private InputActionReference rotateCylinder;
-    [SerializeField] private InputActionReference pickUpItem;
+    [SerializeField] private InputActionReference interactWith;
 
     [SerializeField] private float raySize = 1.0f;
 
@@ -22,13 +22,13 @@ public class InteractionManager : MonoBehaviour
     private void OnEnable()
     {
         rotateCylinder.action.Enable();
-        pickUpItem.action.Enable();
+        interactWith.action.Enable();
     }
 
     private void OnDisable()
     {
         rotateCylinder.action.Disable();
-        pickUpItem.action.Disable();
+        interactWith.action.Disable();
     }
 
     private void Update()
@@ -40,6 +40,7 @@ public class InteractionManager : MonoBehaviour
         {
             CheckInteractable(hit);
             PickUpObject(hit);
+            OpenDoor(hit);
         }
         else
         {
@@ -82,7 +83,7 @@ public class InteractionManager : MonoBehaviour
 
     public void PickUpObject(RaycastHit hit)
     {
-        if(pickUpItem.action.triggered)
+        if(interactWith.action.triggered && hit.collider.GetComponent<IItem>() != null)
         {
             IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
             IItem item = hit.collider.gameObject.GetComponent<IItem>();
@@ -91,6 +92,19 @@ public class InteractionManager : MonoBehaviour
             {
                 bool isPickedUp = interactable.Interact();
                 if(isPickedUp) StartCoroutine(DisplayPickedUpObjectName(item.itemName));
+            }
+        }
+    }
+
+    public void OpenDoor(RaycastHit hit)
+    {
+        if(interactWith.action.triggered && hit.collider.GetComponent<Door>() != null)
+        {
+            IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+
+            if (interactable != null)
+            {
+                bool isDoorOpen = interactable.Interact();
             }
         }
     }

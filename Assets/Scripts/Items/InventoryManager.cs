@@ -24,7 +24,6 @@ public class InventoryManager : MonoBehaviour
     [Header("Inventory UI")]
     [SerializeField] private GameObject itemContainer;
     [SerializeField] private List<Button> objectButtonList;
-    private string inventoryFullMsg = "The inventory is full";
 
 
     public void OnEnable()
@@ -108,7 +107,7 @@ public class InventoryManager : MonoBehaviour
     public IEnumerator DisplayInventoryMsg()
     {
         pickedUpItem.SetActive(true);
-        nameUI.text = inventoryFullMsg;
+        nameUI.text = "The inventory is full";
 
         yield return new WaitForSeconds(2.0f);
         pickedUpItem.SetActive(false);
