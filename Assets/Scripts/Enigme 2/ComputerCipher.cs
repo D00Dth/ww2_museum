@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
 public class ComputerCipher : MonoBehaviour
 {
@@ -18,6 +19,15 @@ public class ComputerCipher : MonoBehaviour
     [SerializeField] private TextMeshProUGUI errorMsg;
     [SerializeField] private List<TextMeshProUGUI> allMsg = new List<TextMeshProUGUI>();
 
+    void Start()
+    {
+        userMsg = Instantiate(msgSend, msgContainer.transform);
+        userMsg.text = "> Enter the password :";
+        
+        ManagePasswordMsg(userMsg);
+        userMsg = null;
+    }
+
     void Update()
     {
         if (isWritting)
@@ -25,18 +35,61 @@ public class ComputerCipher : MonoBehaviour
             if (userMsg == null)
             {
                 userMsg = Instantiate(msgSend, msgContainer.transform);
+                ManagePasswordMsg(userMsg);
             }
+
             userMsg.text = "> " + textWritten;
         }
     }
 
     public void CheckPassword()
-    {       
-        isPasswordEnter = textWritten == password ? true : false;
+    {
+        if (userMsg != null)
+        {
+            TextMeshProUGUI newComputerMsg = Instantiate(successMsg, msgContainer.transform);
+            newComputerMsg.text = "> Checking ";
 
-        TextMeshProUGUI newComputerMsg = isPasswordEnter 
-            ? Instantiate(successMsg, msgContainer.transform) 
-            : Instantiate(errorMsg, msgContainer.transform);
+            StartCoroutine(AnimateVerification(() =>
+            {
+                isPasswordEnter = textWritten == password;
+
+                newComputerMsg.text = isPasswordEnter ? successMsg.text : errorMsg.text;
+
+                ManagePasswordMsg(newComputerMsg);
+
+                textWritten = "";
+                userMsg = null;
+            }, newComputerMsg));
+        }
+    }
+
+    private IEnumerator AnimateVerification(System.Action onComplete, TextMeshProUGUI displayMsg)
+    {
+        string baseText = displayMsg.text;
+
+        for (int j = 0; j < 2; j++) 
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                displayMsg.text += ".";
+                yield return new WaitForSeconds(0.5f);
+            }
+            displayMsg.text = baseText;
+        }
+
+        onComplete?.Invoke();
+    }
+
+
+    public void ManagePasswordMsg(TextMeshProUGUI newMsg)
+    {
+        allMsg.Add(newMsg);
+
+        if (allMsg.Count > 6)
+        {
+            Destroy(allMsg[0].gameObject);
+            allMsg.RemoveAt(0);
+        }
     }
 
     public void DeleteMsg()
