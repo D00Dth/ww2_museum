@@ -13,7 +13,7 @@ public class InventoryManager : MonoBehaviour
     [Header("Display Menu")]
     [SerializeField] private InputActionReference toggleMenu;
     [SerializeField] private GameObject inventoryUI;
-    private bool isMenuOpen = false;
+    public bool isMenuOpen = false;
     private bool isAnimating = false;
 
     [Header("Picked Up Item UI")]
@@ -24,6 +24,10 @@ public class InventoryManager : MonoBehaviour
     [Header("Inventory UI")]
     [SerializeField] private GameObject itemContainer;
     [SerializeField] private List<Button> objectButtonList;
+    [SerializeField] public GameObject showObject;
+    public GameObject objectDisplay;
+    public bool isDisplayed = false;
+
 
 
     public void OnEnable()
@@ -68,13 +72,19 @@ public class InventoryManager : MonoBehaviour
                         isMenuOpen = true;
                     });
             
-            for(int i = 0; i < inventory.Count; i++)
+            for (int i = 0; i < inventory.Count; i++)
             {   
-                Image buttonImg = objectButtonList[i].GetComponentInChildren<Image>();
+                int index = i; // Crée une copie locale de 'i'
+                Image buttonImg = objectButtonList[index].GetComponentInChildren<Image>();
                 buttonImg.gameObject.SetActive(true);
+                buttonImg.sprite = inventory[index].itemIcon;
 
-                buttonImg.sprite = inventory[i].itemIcon;
+                objectButtonList[index].onClick.RemoveAllListeners();
+
+                // Utilise la copie locale 'index' ici
+                objectButtonList[index].onClick.AddListener(() => inventory[index].Use());
             }
+
 
         }
         else
@@ -95,6 +105,9 @@ public class InventoryManager : MonoBehaviour
         if(inventory.Count < 3) 
         {
             inventory.Add(item);
+            
+            pickedUpItem.SetActive(true);
+            nameUI.text = item.itemName;
             return true;
         }
         else 
@@ -120,4 +133,6 @@ public interface IItem
     string itemName { get; }
     GameObject itemModel { get; }
     Sprite itemIcon { get; }
+
+    void Use();
 }

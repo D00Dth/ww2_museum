@@ -17,22 +17,32 @@ public class KeyBoardKey : MonoBehaviour, IInteractable
 
     public bool Interact()
     {   
-        switch(keyBoardKey)
+        if(!computerCipher.isChecking)
         {
-            case "Enter":
-                computerCipher.CheckPassword();
-                computerCipher.isWritting = false;
-                break;
-            case "Delete":
-                computerCipher.DeleteMsg();
-                computerCipher.isWritting = false;
-                break;
-            default:
-                computerCipher.textWritten += keyBoardKey;
-                computerCipher.isWritting = true;
-                break;
-        }
+            switch(keyBoardKey)
+            {
+                case "Enter":
+                    if(!computerCipher.isConnected)
+                    {
+                        computerCipher.CheckPassword();
+                        computerCipher.isWritting = false;
+                    }
+                    else
+                    {
+                        // computerCipher.CheckAnswer();
+                    }
 
+                    break;
+                case "Delete":
+                    computerCipher.DeleteMsg();
+                    computerCipher.isWritting = false;
+                    break;
+                default:
+                    computerCipher.textWritten += keyBoardKey;
+                    computerCipher.isWritting = true;
+                    break;
+            }
+        }
         return true;
     }
 }

@@ -28,8 +28,29 @@ public class Key : MonoBehaviour, IItem, IInteractable
         bool isAdded = inventoryManager.AddItemToInventory(this);
         if (isAdded)
         {
-            Destroy(gameObject);
+            gameObject.transform.SetParent(inventoryManager.showObject.transform);
+            gameObject.transform.localPosition = new Vector3(0, 0 , 0.5f);
+            gameObject.transform.localRotation = Quaternion.Euler(0, 180, 45);
+            gameObject.transform.localScale = new Vector3(5, 5, 5);
+            
+            gameObject.SetActive(false);
         }
         return isAdded;
+    }
+
+    public void Use()
+    {
+        if(!inventoryManager.isDisplayed) 
+        {
+            inventoryManager.objectDisplay = gameObject;
+            gameObject.SetActive(true);
+            inventoryManager.isDisplayed = true;
+        }
+        else
+        {
+            gameObject.SetActive(false);
+            inventoryManager.objectDisplay = null;
+            inventoryManager.isDisplayed = false;
+        }
     }
 }

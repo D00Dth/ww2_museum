@@ -6,36 +6,40 @@ public class CursorManager : MonoBehaviour
     [SerializeField] private InputActionReference showCursor;
     [SerializeField] private GameObject cursorPointer;
     [SerializeField] public bool isLocked = false;
+    public bool isSpecificView = false;
 
-    private void OnEnable()
+    public void OnEnable()
     {
         showCursor.action.Enable();
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         showCursor.action.Disable();
     }
 
-    private void Start()
+    void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
-    private void Update()
+    void Update()
     {
-        if (showCursor.action.IsPressed())
+        if(!isSpecificView)
         {
-            UnlockCursor();
-        }
-        else
-        {
-            LockCursor();
+            if (showCursor.action.IsPressed())
+            {
+                UnlockCursor();
+            }
+            else
+            {
+                LockCursor();
+            }
         }
     }
 
-    private void UnlockCursor()
+    public void UnlockCursor()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -43,7 +47,7 @@ public class CursorManager : MonoBehaviour
         isLocked = false;
     }
 
-    private void LockCursor()
+    public void LockCursor()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

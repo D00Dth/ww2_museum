@@ -2,72 +2,128 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ComputerCipher : MonoBehaviour
 {
-    private string password = "1"; // À remplacer par 18071940
-    private bool isPasswordEnter = false;
+    private string password = "1";
     [SerializeField] private List<string> messagesList = new List<string>();
     [SerializeField] public string textWritten;
+    private int index = 0;
     public bool isWritting = false;
+    public bool isConnected = false;
+    public bool isChecking = false;
+
+
+
 
     [Header("Messages UI")]
     [SerializeField] private GameObject msgContainer;
     [SerializeField] private TextMeshProUGUI msgSend;
-    private TextMeshProUGUI userMsg = null;
-    [SerializeField] private TextMeshProUGUI successMsg;
-    [SerializeField] private TextMeshProUGUI errorMsg;
+    private TextMeshProUGUI message = null;
     [SerializeField] private List<TextMeshProUGUI> allMsg = new List<TextMeshProUGUI>();
+
 
     void Start()
     {
-        userMsg = Instantiate(msgSend, msgContainer.transform);
-        userMsg.text = "> Enter the password :";
+        message = Instantiate(msgSend, msgContainer.transform);
+        message.text = "> Enter the password :";
         
-        ManagePasswordMsg(userMsg);
-        userMsg = null;
+        ManagePasswordMsg(message);
+        message = null;
     }
 
     void Update()
     {
-        if (isWritting)
+        if(isWritting)
         {
-            if (userMsg == null)
-            {
-                userMsg = Instantiate(msgSend, msgContainer.transform);
-                ManagePasswordMsg(userMsg);
-            }
-
-            userMsg.text = "> " + textWritten;
+            string textMsg = "> " + textWritten;
+            GenerateMsg(msgSend, textMsg); 
         }
+    }
+
+
+    public void GenerateMsg(TextMeshProUGUI msg, string textMsg)
+    {
+        if (message == null)
+        {
+            message = Instantiate(msg, msgContainer.transform);
+            ManagePasswordMsg(message);
+        }
+
+        message.text = textMsg;
+
     }
 
     public void CheckPassword()
     {
-        if (userMsg != null)
+        isChecking = true;
+        if (message != null)
         {
-            TextMeshProUGUI newComputerMsg = Instantiate(successMsg, msgContainer.transform);
-            newComputerMsg.text = "> Checking ";
-
-            StartCoroutine(AnimateVerification(() =>
-            {
-                isPasswordEnter = textWritten == password;
-
-                newComputerMsg.text = isPasswordEnter ? successMsg.text : errorMsg.text;
-
-                ManagePasswordMsg(newComputerMsg);
-
-                textWritten = "";
-                userMsg = null;
-            }, newComputerMsg));
+            TextMeshProUGUI newComputerMsg = Instantiate(msgSend, msgContainer.transform);
+            StartCoroutine(VerifyPasswordSequence(newComputerMsg));
         }
     }
 
-    private IEnumerator AnimateVerification(System.Action onComplete, TextMeshProUGUI displayMsg)
+    private IEnumerator VerifyPasswordSequence(TextMeshProUGUI displayMsg)
+    {
+        yield return StartCoroutine(TypeText(displayMsg, "> Checking ", 0.1f));
+        yield return StartCoroutine(AnimateVerification(null, displayMsg));
+
+        isConnected = textWritten == password;
+
+        string resultText = isConnected ? "> Connected" : "> Error";
+        yield return StartCoroutine(TypeText(displayMsg, resultText, 0.1f));
+
+        ManagePasswordMsg(displayMsg);
+
+        textWritten = "";
+        message = null;
+        isChecking = false;
+
+        if (isConnected)
+            StartCoroutine(ClearMessages());
+    }
+
+
+    public IEnumerator TypeText(TextMeshProUGUI textComponent, string fullText, float delay)
+    {
+        textComponent.text = "";
+        foreach (char letter in fullText)
+        {
+            textComponent.text += letter;
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+
+    public IEnumerator ClearMessages()
+    {
+        yield return new WaitForSeconds(2.0f);
+        foreach(TextMeshProUGUI msg in allMsg)
+        {
+            Destroy(msg.gameObject);
+        }
+        allMsg.Clear();
+        StartCoroutine(DisplayComputerMsg());
+    }
+
+    public IEnumerator DisplayComputerMsg()
+    {
+        foreach(string msg in messagesList)
+        {
+            TextMeshProUGUI newComputerMsg = Instantiate(msgSend, msgContainer.transform);
+            yield return StartCoroutine(TypeText(newComputerMsg, msg, 0.1f));
+            ManagePasswordMsg(newComputerMsg);
+        }
+    }
+
+
+    public IEnumerator AnimateVerification(System.Action onComplete, TextMeshProUGUI displayMsg)
     {
         string baseText = displayMsg.text;
 
-        for (int j = 0; j < 2; j++) 
+        for (int j = 0; j < 3; j++)
         {
             for (int i = 0; i < 3; i++)
             {
@@ -79,6 +135,7 @@ public class ComputerCipher : MonoBehaviour
 
         onComplete?.Invoke();
     }
+
 
 
     public void ManagePasswordMsg(TextMeshProUGUI newMsg)
@@ -94,10 +151,11 @@ public class ComputerCipher : MonoBehaviour
 
     public void DeleteMsg()
     {
-        if (userMsg != null)
+        if (message != null)
         {
-            Destroy(userMsg.gameObject);
-            userMsg = null;
+            Destroy(message.gameObject);
+            allMsg.Remove(message);
+            message = null;
         }
         textWritten = "";
     }

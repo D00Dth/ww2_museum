@@ -7,10 +7,12 @@ using TMPro;
 public class InteractionManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
+    [SerializeField] private Camera camera;
     [SerializeField] private InputActionReference rotateCylinder;
     [SerializeField] private InputActionReference interactWith;
 
     [SerializeField] private float raySize = 1.0f;
+    [SerializeField] private CursorManager cursorManager;
 
     private GameObject hoveredObj;
 
@@ -44,6 +46,8 @@ public class InteractionManager : MonoBehaviour
             PickUpObject(hit);
             OpenDoor(hit);
 
+            LookRadio(hit);
+
             PressKeyboard(hit);
         }
         else
@@ -53,6 +57,17 @@ public class InteractionManager : MonoBehaviour
                 hoveredObj.GetComponent<IInteractable>().OnHoverExit();
                 hoveredObj = null;
             }
+        }
+    }
+
+    public void LookRadio(RaycastHit hit)
+    {
+        if(interactWith.action.triggered && hit.collider.GetComponent<RadioManager>() != null)
+        {
+            RadioManager radio = hit.collider.GetComponent<RadioManager>();
+
+            if(!cursorManager.isSpecificView) radio.ChangeView(camera, player);
+            else radio.ResetView(camera, player);
         }
     }
 
