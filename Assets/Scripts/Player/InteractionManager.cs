@@ -45,6 +45,7 @@ public class InteractionManager : MonoBehaviour
             RotateCylinder(hit);
             PickUpObject(hit);
             OpenDoor(hit);
+            StartQuizz(hit);
 
             LookRadio(hit);
 
@@ -57,6 +58,17 @@ public class InteractionManager : MonoBehaviour
                 hoveredObj.GetComponent<IInteractable>().OnHoverExit();
                 hoveredObj = null;
             }
+        }
+    }
+
+    public void StartQuizz(RaycastHit hit)
+    {
+        if(interactWith.action.triggered && hit.collider.GetComponent<QuizzManager>() != null)
+        {
+            QuizzManager desk = hit.collider.GetComponent<QuizzManager>();
+
+            if(!cursorManager.isSpecificView) desk.ChangeView(camera, player);
+            else desk.ResetView(camera, player);
         }
     }
 
