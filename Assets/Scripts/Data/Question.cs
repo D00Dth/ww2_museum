@@ -11,6 +11,7 @@ public class Question : ScriptableObject
     [Serializable]
     public class Answer
     {
+        public AnswerButton answerButton;
         public string answerText;
         public bool isCorrect;
     }

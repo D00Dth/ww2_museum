@@ -18,11 +18,11 @@ public class Document : MonoBehaviour, IItem
         if(!inventoryManager.isDisplayed) 
         {
             GameObject newDocument = Instantiate(documentModel, inventoryManager.showObject.transform);
-            // inventoryManager.objectDisplay = newDocument;
+            inventoryManager.objectDisplay = newDocument;
 
-            newDocument.transform.localScale = new Vector3(0.05f, 0.05f, 0.075f);
-            newDocument.transform.localRotation = Quaternion.Euler(60, 180, 0);
-            newDocument.transform.localPosition = new Vector3(0, 0, 1);
+            gameObject.transform.localScale = new Vector3(0.05f, 0.05f, 0.075f);
+            gameObject.transform.localRotation = Quaternion.Euler(60, 180, 0);
+            gameObject.transform.localPosition = new Vector3(0, 0, 1);
 
             inventoryManager.isDisplayed = true;
         }
