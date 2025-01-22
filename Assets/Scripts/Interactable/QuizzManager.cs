@@ -17,18 +17,12 @@ public class QuizzManager : MonoBehaviour, IInteractable
 
     public void OnHoverEnter()
     {
-        if(!cursorManager.isSpecificView)
-        {
-            gameObject.GetComponent<Renderer>().material.color = Color.red;
-        }
+        gameObject.GetComponent<Renderer>().material.color = Color.red;
     }
 
     public void OnHoverExit()
     {
-        if(!cursorManager.isSpecificView)
-        {
-            gameObject.GetComponent<Renderer>().material.color = Color.white;
-        }    
+        gameObject.GetComponent<Renderer>().material.color = Color.black;
     }
 
     public bool Interact()
@@ -43,10 +37,11 @@ public class QuizzManager : MonoBehaviour, IInteractable
 
     public void StartQuizz()
     {
-        foreach(Question question in questions)
-        {
-            StartCoroutine(DisplayQuestion(question));
-        }
+        print("Game starts");
+        // foreach(Question question in questions)
+        // {
+        //     StartCoroutine(DisplayQuestion(question));
+        // }
     }
 
     public IEnumerator DisplayQuestion(Question question)
@@ -68,13 +63,16 @@ public class QuizzManager : MonoBehaviour, IInteractable
 
     public void ChangeView(Camera camera, GameObject player)
     {
+        // isRunning = true;
+        // StartQuizz();
+        print(cursorManager.isSpecificView);
         gameObject.GetComponent<Renderer>().material.color = Color.white;
         
         player.SetActive(false);
         camera.transform.SetParent(gameObject.transform);
 
-        camera.transform.localPosition = new Vector3(0f, -0.05f, 0.06f);
-        camera.transform.localRotation = Quaternion.Euler(-90, -90, -90);
+        camera.transform.localPosition = new Vector3(0f, -36f, 12f);
+        camera.transform.localRotation = Quaternion.Euler(-90, 0, -180);
 
         cursorManager.isSpecificView = true;
         cursorManager.UnlockCursor();

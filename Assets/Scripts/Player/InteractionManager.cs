@@ -65,10 +65,10 @@ public class InteractionManager : MonoBehaviour
     {
         if(interactWith.action.triggered && hit.collider.GetComponent<QuizzManager>() != null)
         {
-            QuizzManager desk = hit.collider.GetComponent<QuizzManager>();
-
-            if(!cursorManager.isSpecificView) desk.ChangeView(camera, player);
-            else desk.ResetView(camera, player);
+            QuizzManager quizzManager = hit.collider.GetComponent<QuizzManager>();
+            
+            if(!cursorManager.isSpecificView) quizzManager.ChangeView(camera, player);
+            else quizzManager.ResetView(camera, player);
         }
     }
 
