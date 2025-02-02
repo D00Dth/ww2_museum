@@ -3,35 +3,38 @@ using System.Collections.Generic;
 
 public class RotatingCipher : MonoBehaviour, IInteractable
 {
-    [SerializeField] public List<string> _symbols = new List<string>();
-    [SerializeField] public int index;
+    [SerializeField] private List<int> listNumber = new List<int>();
+    [SerializeField] private int index = 1;
     private bool isRotating = false;
 
-
-    void Start()
-    {
-        index = Random.Range(0, _symbols.Count);
-    }
+    public int GetIndex { get { return index; } }
+    public bool GetIsRotating { get { return isRotating; } }
 
 
     public bool Interact()
     {
-        if(!isRotating)
+        if (!isRotating)
         {
             isRotating = true;
-            LeanTween.rotate(gameObject, new Vector3(0f, 0f, 60f) + transform.localEulerAngles, 1f)
+
+            // Calculer la rotation cible en quaternion
+            Quaternion currentRotation = transform.localRotation;
+            Quaternion targetRotation = currentRotation * Quaternion.Euler(-40f, 0f, 0f); // Ajouter 40° sur X
+
+            // Animer vers la rotation cible
+            LeanTween.rotate(gameObject, targetRotation.eulerAngles, 1f)
                 .setEase(LeanTweenType.easeInOutQuad)
                 .setOnComplete(() =>
                 {
                     isRotating = false;
                 });
 
-            index = index == _symbols.Count - 1 ? 0 : index + 1;
-            print(gameObject.name + " a le symbole " + _symbols[index]);
+            // Mettre à jour l'index
+            index = index == 9 ? 1 : index + 1;
         }
         return true;
-
     }
+
 
 
     public void OnHoverEnter()
@@ -41,6 +44,6 @@ public class RotatingCipher : MonoBehaviour, IInteractable
 
     public void OnHoverExit()
     {
-        gameObject.GetComponent<Renderer>().material.color = Color.white;
+        gameObject.GetComponent<Renderer>().material.color = Color.black;
     }
 }
