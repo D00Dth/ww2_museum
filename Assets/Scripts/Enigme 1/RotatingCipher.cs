@@ -10,25 +10,18 @@ public class RotatingCipher : MonoBehaviour, IInteractable
     public int GetIndex { get { return index; } }
     public bool GetIsRotating { get { return isRotating; } }
 
-
     public bool Interact()
     {
         if (!isRotating)
         {
             isRotating = true;
-
-            // Calculer la rotation cible en quaternion
-            Quaternion currentRotation = transform.localRotation;
-            Quaternion targetRotation = currentRotation * Quaternion.Euler(-40f, 0f, 0f); // Ajouter 40° sur X
-
-            // Animer vers la rotation cible
-            LeanTween.rotate(gameObject, targetRotation.eulerAngles, 1f)
+            
+            LeanTween.rotateAround(gameObject,Vector3.forward,40,1f)
                 .setEase(LeanTweenType.easeInOutQuad)
                 .setOnComplete(() =>
                 {
                     isRotating = false;
                 });
-
             // Mettre à jour l'index
             index = index == 9 ? 1 : index + 1;
         }
