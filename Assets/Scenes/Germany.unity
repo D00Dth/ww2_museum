@@ -856,6 +856,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listNumber: 010000000200000003000000040000000500000006000000070000000800000009000000
   index: 1
+  cipherManager: {fileID: 0}
+  inventoryManager: {fileID: 0}
 --- !u!64 &404314776
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1132,8 +1134,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb97b3606df6a646a23a7d6fa36c4ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listNumber: 
+  listNumber: 010000000200000003000000040000000500000006000000070000000800000009000000
   index: 0
+  cipherManager: {fileID: 0}
+  inventoryManager: {fileID: 0}
 --- !u!64 &618137342
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1594,8 +1598,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb97b3606df6a646a23a7d6fa36c4ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listNumber: 
+  listNumber: 010000000200000003000000040000000500000006000000070000000800000009000000
   index: 0
+  cipherManager: {fileID: 0}
+  inventoryManager: {fileID: 0}
 --- !u!64 &904845399
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1798,8 +1804,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb97b3606df6a646a23a7d6fa36c4ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listNumber: 
+  listNumber: 010000000200000003000000040000000500000006000000070000000800000009000000
   index: 0
+  cipherManager: {fileID: 0}
+  inventoryManager: {fileID: 0}
 --- !u!64 &1005508754
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3187,11 +3195,9 @@ MonoBehaviour:
   - {fileID: 1005508753}
   - {fileID: 618137341}
   - {fileID: 904845398}
-  symbols:
-  - 1
-  - 2
-  - 3
-  - 4
+  numbers: 01000000090000000400000002000000
+  key: {fileID: 1219708380}
+  inventoryManager: {fileID: 1057965511}
 --- !u!1 &1623255563 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6577237425059042219, guid: c832df6e0747b70458e969ee1a4c22ff, type: 3}

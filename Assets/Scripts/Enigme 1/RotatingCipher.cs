@@ -7,8 +7,12 @@ public class RotatingCipher : MonoBehaviour, IInteractable
     [SerializeField] private int index = 1;
     private bool isRotating = false;
 
+    public List<int> GetListNumber { get { return listNumber; } }
     public int GetIndex { get { return index; } }
     public bool GetIsRotating { get { return isRotating; } }
+
+    [SerializeField] private CipherManager cipherManager;
+
 
     public bool Interact()
     {
@@ -21,10 +25,11 @@ public class RotatingCipher : MonoBehaviour, IInteractable
                 .setOnComplete(() =>
                 {
                     isRotating = false;
+                    index = index == 8 ? 0 : index + 1;
+                    cipherManager.IsCombinationCorrect();
                 });
-            // Mettre à jour l'index
-            index = index == 9 ? 1 : index + 1;
         }
+        
         return true;
     }
 
