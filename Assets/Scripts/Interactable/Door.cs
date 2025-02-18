@@ -4,6 +4,7 @@ public class Door : MonoBehaviour, IInteractable
 {
     [SerializeField] private InventoryManager inventoryManager;
     [SerializeField] private Key specificKey;
+    [SerializeField] private Color colorDoor;
 
 
     public void OnHoverEnter()
@@ -13,7 +14,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public void OnHoverExit()
     {
-        gameObject.GetComponentInChildren<Renderer>().material.color = Color.white;
+        gameObject.GetComponentInChildren<Renderer>().material.color = colorDoor;
     }
 
     public bool Interact()

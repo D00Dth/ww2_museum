@@ -21,6 +21,8 @@ public class InteractionManager : MonoBehaviour
     [SerializeField] private GameObject pickedUpItem;
     [SerializeField] private TextMeshProUGUI nameUI;
 
+
+
     private void OnEnable()
     {
         rotateCylinder.action.Enable();
