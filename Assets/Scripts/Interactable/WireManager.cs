@@ -4,13 +4,27 @@ using System.Collections;
 
 public class WireManager : MonoBehaviour 
 {
+    [SerializeField] private InventoryManager inventoryManager;
     [Header("Wire")]
     [SerializeField] private List<GameObject> wireListOrder = new List<GameObject>();
     private int index = 0;
     [SerializeField] private Door wireDoor;
 
-    public void CheckWireCutedOrder(GameObject wire)
+
+    public bool CheckWireCutedOrder(GameObject wire)
     {
+        bool hasShear = false;
+        foreach (IItem item in inventoryManager.inventory)
+        {
+            if (item is Shear) 
+            {
+                hasShear = true;
+                break; 
+            }
+        }
+
+        if(!hasShear) return false; 
+
         if(wire != wireListOrder[index])
         {
             foreach(GameObject wireObj in wireListOrder)
@@ -24,7 +38,7 @@ public class WireManager : MonoBehaviour
         {
             index++;
             if(index == wireListOrder.Count) wireDoor.OpenDoor();
-
         }
+        return true;
     }
 }

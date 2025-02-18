@@ -97,6 +97,7 @@ public class InteractionManager : MonoBehaviour
             }
 
             hoveredObj = hit.collider.gameObject;
+
             interactable.OnHoverEnter();
         }
         else

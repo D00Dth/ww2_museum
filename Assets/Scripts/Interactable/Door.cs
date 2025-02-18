@@ -21,7 +21,7 @@ public class Door : MonoBehaviour, IInteractable
     {
         for(int i = 0; i < inventoryManager.inventory.Count; i++)
         {
-            if(inventoryManager.inventory[i] == specificKey)
+            if(specificKey != null && inventoryManager.inventory[i] == specificKey)
             {   
                 inventoryManager.inventory.RemoveAt(i);
                 OpenDoor();

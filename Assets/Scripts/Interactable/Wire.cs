@@ -22,8 +22,8 @@ public class Wire : MonoBehaviour, IInteractable
     {
         if(wireEnabled)
         {
-            wireManager.CheckWireCutedOrder(gameObject);
-            Destroy(gameObject);
+            bool isCute = wireManager.CheckWireCutedOrder(gameObject);
+            if(isCute) Destroy(gameObject);
         } 
         
         return true;
