@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52874fa3fb5f594418a8c1ffcc9c5921, type: 3}
+  m_Name: Question 8
+  m_EditorClassIdentifier: 
+  question: "Quel \xE9tait le r\xF4le des faux papiers dans la R\xE9sistance ?"
+  answers:
+  - answerButton: 0
+    answerText: "Cr\xE9er des slogans anti-allemands pour la population"
+    isCorrect: 0
+  - answerButton: 1
+    answerText: "Aider les soldats allemands \xE0 infiltrer la R\xE9sistance"
+    isCorrect: 0
+  - answerButton: 2
+    answerText: "Identifier les tra\xEEtres au sein des r\xE9seaux"
+    isCorrect: 0
+  - answerButton: 3
+    answerText: "Permettre aux pers\xE9cut\xE9s d\u2019\xE9chapper aux rafles et
+      arrestations"
+    isCorrect: 1

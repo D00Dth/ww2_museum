@@ -13,6 +13,7 @@ public class QuizzManager : MonoBehaviour, IInteractable
 
     [SerializeField] private CursorManager cursorManager;
     private bool isRunning = false;
+    private bool isQuizzOver = false;
 
     [SerializeField] private GameObject cameraContainer;
 
@@ -31,16 +32,20 @@ public class QuizzManager : MonoBehaviour, IInteractable
 
     public void OnHoverEnter()
     {
+        if (isQuizzOver) return;
         gameObject.GetComponent<Renderer>().material.color = Color.red;
     }
 
     public void OnHoverExit()
     {
+        if (isQuizzOver) return;
         gameObject.GetComponent<Renderer>().material.color = Color.cyan;
     }
 
     public bool Interact()
     {
+        if (isQuizzOver) return false;
+
         if(cursorManager.isSpecificView && !isRunning)
         {
             isRunning = true;
@@ -87,15 +92,20 @@ public class QuizzManager : MonoBehaviour, IInteractable
     {
         if(answerButton.HasValue)
         {
-            foreach(var answer in questions[index].answers)
+            var correctAnswer = questions[index].answers.Find( a =>  a.isCorrect);
+
+            if(correctAnswer != null && correctAnswer.answerButton == answerButton)
             {
-                if(answer.answerButton == answerButton)
-                {
-                    isRightAnswer = answer.isCorrect ? true : false;
-                    score++;
-                    break;
-                }
+                isRightAnswer = true;
+                score++;
             }
+            else
+            {
+                isRightAnswer = false;
+            }
+
+            print(score);   
+
 
             Color answerColor = isRightAnswer ? Color.green : Color.red; 
             ChangeAnswerColor(answerButton, answerColor);
@@ -147,6 +157,8 @@ public class QuizzManager : MonoBehaviour, IInteractable
 
     public void DisplayEndQuizz()
     {
+        isQuizzOver = true;
+
         questionUI.gameObject.SetActive(false);
         foreach(TextMeshProUGUI answer in listAnswersUI)
         {
@@ -178,6 +190,7 @@ public class QuizzManager : MonoBehaviour, IInteractable
         textBetweenQuestion.text = "Félicitation vous avez fini le quizz ! Votre score est de " + score + ". " + congratsText;
         textBetweenQuestion.fontSize = 300f;
         textBetweenQuestion.gameObject.SetActive(true);
+
     }
 
     public void ChangeAnswerColor(AnswerButton? answerSelected, Color color)
