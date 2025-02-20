@@ -25,10 +25,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Sprite englandMuseumSprite;
 
 
-    [Header("Germany")]
-    [SerializeField] private Button germanyButton;
-    [SerializeField] private Sprite germanyMuseumSprite;
-
     private Dictionary<Button, MuseumData> buttonToSpriteMap;
     [SerializeField] private Image museumImg;
     [SerializeField] private Button clickedButton;
@@ -53,8 +49,7 @@ public class MenuManager : MonoBehaviour
         buttonToSpriteMap = new Dictionary<Button, MuseumData>
         {
             { franceButton, new MuseumData(franceMuseumSprite, "France") },
-            { englandButton, new MuseumData(englandMuseumSprite, "England") },
-            { germanyButton, new MuseumData(germanyMuseumSprite, "Germany") }
+            { englandButton, new MuseumData(englandMuseumSprite, "England") }
         };
     }
 
@@ -125,14 +120,12 @@ public class MenuManager : MonoBehaviour
     {
         franceButton.interactable = buttonClicked == franceButton; 
         englandButton.interactable = buttonClicked == englandButton; 
-        germanyButton.interactable = buttonClicked == germanyButton; 
     }
 
     public void ResetButtonInteraction()
     {
         franceButton.interactable = true;
         englandButton.interactable = true; 
-        germanyButton.interactable = true; 
     }
     #endregion
 

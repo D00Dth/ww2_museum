@@ -14,6 +14,7 @@ public class WireManager : MonoBehaviour
     public bool CheckWireCutedOrder(GameObject wire)
     {
         bool hasShear = false;
+
         foreach (IItem item in inventoryManager.inventory)
         {
             if (item is Shear) 
@@ -23,22 +24,39 @@ public class WireManager : MonoBehaviour
             }
         }
 
-        if(!hasShear) return false; 
+        if (!hasShear) return false;
+        if (index >= wireListOrder.Count || wireListOrder[index] == null) return false;
 
-        if(wire != wireListOrder[index])
+        if (wire != wireListOrder[index])
         {
-            foreach(GameObject wireObj in wireListOrder)
+            
+            foreach (GameObject wireObj in wireListOrder)
             {
-                wireObj.GetComponent<Wire>().enabled = false;
-                wireObj.GetComponent<Wire>().WireEnabled = false;
-                wireObj.GetComponent<Renderer>().material.color = Color.black;
+                if (wireObj != null)
+                {
+                    Wire wireComponent = wireObj.GetComponent<Wire>();
+                    if (wireComponent != null)
+                    {
+                        wireComponent.enabled = false;
+                        wireComponent.WireEnabled = false;
+                    }
+                    wireObj.GetComponent<Renderer>().material.color = Color.black;
+                }
             }
+
+            return false;
         }
         else
         {
             index++;
-            if(index == wireListOrder.Count) wireDoor.OpenDoor();
+
+            if (index == wireListOrder.Count)
+            {
+                wireDoor.OpenDoor();
+            }
         }
+
         return true;
     }
+
 }

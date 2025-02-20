@@ -8,6 +8,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Transform camera;
     [SerializeField] private CursorManager cursorManager;
 
+    [SerializeField] private bool escapePerformed;
+
 
     [SerializeField] private Vector2 moveInputs, lookInputs;
     [SerializeField] private bool jumpPerformed;
@@ -24,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     {
         Look();
     }
+
 
     void FixedUpdate()
     {

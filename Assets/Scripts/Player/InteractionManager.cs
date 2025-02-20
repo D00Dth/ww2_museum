@@ -10,6 +10,7 @@ public class InteractionManager : MonoBehaviour
     [SerializeField] private Camera camera;
     [SerializeField] private InputActionReference rotateCylinder;
     [SerializeField] private InputActionReference interactWith;
+    [SerializeField] private InputActionReference openMenu;
 
     [SerializeField] private float raySize = 1.0f;
     [SerializeField] private CursorManager cursorManager;

@@ -466,6 +466,7 @@
 "Assets/Scripts/Items/InventoryManager.cs"
 "Assets/Scripts/Items/Key.cs"
 "Assets/Scripts/Items/Shear.cs"
+"Assets/Scripts/Menu/InGameMenuManager.cs"
 "Assets/Scripts/Menu/MenuManager.cs"
 "Assets/Scripts/Menu/SelectMuseum.cs"
 "Assets/Scripts/Player/CursorManager.cs"
