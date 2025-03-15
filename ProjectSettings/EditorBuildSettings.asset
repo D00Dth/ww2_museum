@@ -10,11 +10,12 @@ EditorBuildSettings:
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/England.unity
-    guid: 3eb268ccdf3ba664b90aabd04d28d9a0
+    guid: 5c41439575b7e694faa901507c3ef94f
   - enabled: 1
     path: Assets/Scenes/France.unity
-    guid: 5626f288a4c20ed4abac54fc9e4242d5
-  - enabled: 1
+    guid: 4a3c2b3638426414093ee83951a580e3
+  - enabled: 0
     path: Assets/Scenes/Germany.unity
     guid: 1b4caf77bce07384298b11111d04b99e
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
